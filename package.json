@@ -1,0 +1,20 @@
+{
+  "name": "nav-menu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mpduffey/nav-menu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mpduffey/nav-menu/issues"
+  },
+  "homepage": "https://github.com/mpduffey/nav-menu#readme"
+}
