@@ -11,16 +11,17 @@ import {ModalService}													from 'modules/modal/modal-service';
 				<div class="nav-menu-icon"><a><i class="fa fa-bars"></i></a></div>
 				<div class="nav-menu singlepage-nav">
 					<ul class="nav-menu-inner">
-						<li *ngFor="let item of menu"><a [href]="item.link" (click)="smoothScroll($event)">{{item.label}}</a></li>
-						<li><a (click)="login($event)">Login</a></li>
+						<li *ngFor="let item of menu"><a [href]="item.link" (click)="smoothScroll($event, item.external)" [attr.target]="item.external?'_blank':null">{{item.label}}</a></li>
+						<li *ngIf="showLogin"><a (click)="login($event)">Login</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	`,
 	styles:			[`
+		ul.stately {width:300px; font-size:300px; color:#f0f0f0;}
 		a {color: #333; cursor: pointer; text-decoration: none;}
-		.header {position: absolute; text-align: center; top: 0px; z-index: 1000; color: #fff; width: 100%; height: 99px; transition: background-color 200ms ease-in-out 0s; -o-transition: background-color 200ms ease-in-out 0s; -moz-transition: background-color 200ms ease-in-out 0s; -webkit-transition: background-color 200ms ease-in-out 0s;}
+		.header {position: absolute; text-align: center; top: 0px; z-index: 1001; color: #fff; width: 100%; height: 99px; transition: background-color 200ms ease-in-out 0s; -o-transition: background-color 200ms ease-in-out 0s; -moz-transition: background-color 200ms ease-in-out 0s; -webkit-transition: background-color 200ms ease-in-out 0s;}
 		.header.header-prepare {background-color: rgba(51, 51, 51, 0.90);}
 		.header.header-fixed {display: block; margin-top: 0 !important; position: fixed; height: 65px;}
 		.header-inner {padding-left: 30px; padding-right: 30px; position: relative;}
@@ -52,11 +53,10 @@ export class NavMenu {
 		{link: "#intro", label: "Home"},
 		{link: "#about", label: "About"},
 		{link: "#calendar", label: "Calendar"},
-		{link: "#issues", label: "Issues"},
-		{link: "#resources", label: "Resources"},
-		{link: "#signup", label: "Sign-up"},
+		{link: "https://docs.google.com/forms/d/e/1FAIpQLSfjiqYbdEAR7KZbRGCiiJCGUIsr-QR2tZnSKVl2o5qs0vtaTQ/viewform", label: "Sign-up", external: true},
 		{link: "#contact", label: "Contact"}
-	]
+	];
+	showLogin:boolean = false;
 	
 	constructor(private el: ElementRef, private user:UserService, private modal:ModalService) {
 		this.el = el;
@@ -64,9 +64,11 @@ export class NavMenu {
 	@HostListener('window:scroll', ['$event']) fixMenu(event) {
 			this.pageYOffset = window.pageYOffset;
 		}
-	smoothScroll = (e) => {
-		e.preventDefault();
-		$('html,body').scrollTo(e.target.hash, 1000); 
+	smoothScroll = (e, ext) => {
+		if(!ext) {
+			e.preventDefault();
+			$('html,body').scrollTo(e.target.hash, 1000); 
+		}
 	}
 	login = (e) => {
 		e.preventDefault();
