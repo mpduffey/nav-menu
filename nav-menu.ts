@@ -1,9 +1,9 @@
-import {Component, HostListener, ElementRef}	from '@angular/core';
+import {Component, HostListener, Input}				from '@angular/core';
 import {UserService}													from 'modules/user-service/user-service';
 import {ModalService}													from 'modules/modal/modal-service';
 
 @Component({
-	selector:			'nav2-menu',
+	selector:			'nav-menu',
 	template:			`
 		<div class="header" [ngClass]="{'header-fixed': pageYOffset>0, 'header-prepare': pageYOffset>100}">
 			<div class="header-inner">
@@ -51,19 +51,11 @@ import {ModalService}													from 'modules/modal/modal-service';
 })
 
 export class NavMenu {
-	menu = [
-		{link: "#intro", label: "Home"},
-		{link: "#about", label: "About"},
-		{link: "#calendar", label: "Calendar"},
-		{link: "#gallery", label: "Gallery"},
-		{link: "https://docs.google.com/forms/d/e/1FAIpQLSfjiqYbdEAR7KZbRGCiiJCGUIsr-QR2tZnSKVl2o5qs0vtaTQ/viewform", label: "Sign-up", external: true},
-		{link: "#contact", label: "Contact"}
-	];
-	showLogin:boolean = false;
+	@Input() menu;
+	@Input() showLogin:boolean = false;
+	@Input("scroll-duration") scrollDuration:integer = 1000;
 	
-	constructor(private el: ElementRef, private user:UserService, private modal:ModalService) {
-		this.el = el;
-	}
+	constructor(private user:UserService, private modal:ModalService) {}
 	@HostListener('window:scroll', ['$event']) fixMenu(event) {
 			this.pageYOffset = window.pageYOffset;
 		}
@@ -71,7 +63,7 @@ export class NavMenu {
 		if(!ext) {
 			e.preventDefault();
 			this.menuActive = false;
-			$('html,body').scrollTo(e.target.hash, 1000); 
+			$('html,body').scrollTo(e.target.hash, this.scrollDuration); 
 		}
 	}
 	login = (e) => {
