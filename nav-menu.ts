@@ -1,6 +1,4 @@
 import {Component, HostListener, Input}				from '@angular/core';
-import {UserService}													from 'modules/user-service/user-service';
-import {ModalService}													from 'modules/modal/modal-service';
 
 @Component({
 	selector:			'nav-menu',
@@ -55,7 +53,7 @@ export class NavMenu {
 	@Input() showLogin:boolean = false;
 	@Input("scroll-duration") scrollDuration:integer = 1000;
 	
-	constructor(private user:UserService, private modal:ModalService) {}
+	constructor() {}
 	@HostListener('window:scroll', ['$event']) fixMenu(event) {
 			this.pageYOffset = window.pageYOffset;
 		}
@@ -65,9 +63,5 @@ export class NavMenu {
 			this.menuActive = false;
 			$('html,body').scrollTo(e.target.hash, this.scrollDuration); 
 		}
-	}
-	login = (e) => {
-		e.preventDefault();
-		this.user.launchLogin();
 	}
 }
